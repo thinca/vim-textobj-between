@@ -12,12 +12,17 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " Interface  "{{{1
-call textobj#user#plugin('between', {
+call textobj#user#plugin('betweenimpl', {
 \      '-': {
-\        'select-a': 'af',  '*select-a-function*': 'textobj#between#select_a',
-\        'select-i': 'if',  '*select-i-function*': 'textobj#between#select_i',
+\        'select-a': 'af',  '*select-a-function*': 'textobj#between#impl_select_a',
+\        'select-i': 'if',  '*select-i-function*': 'textobj#between#impl_select_i',
 \      }
 \    })
+
+omap <expr> <Plug>(textobj-between-a) textobj#between#select_a()
+vmap <expr> <Plug>(textobj-between-a) textobj#between#select_a()
+omap <expr> <Plug>(textobj-between-i) textobj#between#select_i()
+vmap <expr> <Plug>(textobj-between-i) textobj#between#select_i()
 
 
 let &cpo = s:save_cpo
