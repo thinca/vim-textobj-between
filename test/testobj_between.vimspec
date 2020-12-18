@@ -1,0 +1,88 @@
+Describe textobj-between-i
+  Before all
+    omap @ <Plug>(textobj-between-i)
+    vmap @ <Plug>(textobj-between-i)
+  End
+
+  After all
+    ounmap @
+    vunmap @
+  End
+
+  Before each
+    % delete _
+  End
+
+  It selects a text-block between a specified char (Operator-pending mode)
+    call setline(1, 'text/text-block/text')
+    normal f-d@/
+    Assert Equals(getline(1), 'text//text')
+
+    call setline(1, '\text-block\')
+    normal ld@\
+    Assert Equals(getline(1), '\\')
+  End
+
+  It selects a text-block between a specified char (Visual mode)
+    call setline(1, 'text/text-block/text')
+    normal f-v@/d
+    Assert Equals(getline(1), 'text//text')
+
+    call setline(1, '\text-block\')
+    normal lv@\d
+    Assert Equals(getline(1), '\\')
+  End
+
+  It is dot-repeatable
+    call setline(1, '/text-block/')
+    normal ld@/
+    call setline(1, '/text-block/')
+    normal .
+    Assert Equals(getline(1), '//')
+  End
+End
+
+Describe textobj-between-a
+  Before all
+    omap @ <Plug>(textobj-between-a)
+    vmap @ <Plug>(textobj-between-a)
+  End
+
+  After all
+    ounmap @
+    vunmap @
+  End
+
+  Before each
+    % delete _
+  End
+
+  It selects a text-block that starts and ends with a specified char (Operator-pending mode)
+    call setline(1, 'text/text-block/text')
+    normal f-d@/
+    Assert Equals(getline(1), 'texttext')
+
+    call setline(1, '\text-block\')
+    normal d@\
+    Assert Equals(getline(1), '')
+  End
+
+  It selects a text-block that starts and ends with a specified char (Visual mode)
+    call setline(1, 'text/text-block/text')
+    normal f-v@/d
+    Assert Equals(getline(1), 'texttext')
+
+    call setline(1, '\text-block\')
+    normal lv@\d
+    Assert Equals(getline(1), '')
+  End
+
+  It is dot-repeatable
+    call setline(1, '/text-block/')
+    normal ld@/
+
+    call setline(1, 'text/text-block/text')
+    normal f-.
+    Assert Equals(getline(1), 'texttext')
+  End
+End
