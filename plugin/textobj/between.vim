@@ -24,7 +24,7 @@ vmap <expr> <Plug>(textobj-between-a) textobj#between#select_a()
 omap <expr> <Plug>(textobj-between-i) textobj#between#select_i()
 vmap <expr> <Plug>(textobj-between-i) textobj#between#select_i()
 
-" Overwrite default key mappings and a command defined by textobj-user
+" Overwrite default-key-mappings and a command defined by textobj-user
 function! s:define_default_key_mappings(force_overwrite)
   let modifier = a:force_overwrite ? '' : '<unique>'
   execute 'silent! omap' modifier 'af <Plug>(textobj-between-a)'
@@ -37,6 +37,9 @@ command! -bang -bar TextobjBetweenDefaultKeyMappings
 if !get(g:, 'textobj_between_no_default_key_mappings', 0)
   TextobjBetweenDefaultKeyMappings!
 endif
+
+" Delete this because this may make users confused
+delcommand TextobjBetweenimplDefaultKeyMappings
 
 
 let &cpo = s:save_cpo
