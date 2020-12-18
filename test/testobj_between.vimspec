@@ -1,41 +1,31 @@
 Describe textobj-between-i
-  Before all
-    omap @ <Plug>(textobj-between-i)
-    vmap @ <Plug>(textobj-between-i)
-  End
-
-  After all
-    ounmap @
-    vunmap @
-  End
-
   Before each
     % delete _
   End
 
   It selects a text-block between a specified char (Operator-pending mode)
     call setline(1, 'text/text-block/text')
-    normal f-d@/
+    normal f-dif/
     Assert Equals(getline(1), 'text//text')
 
     call setline(1, '\text-block\')
-    normal ld@\
+    normal ldif\
     Assert Equals(getline(1), '\\')
   End
 
   It selects a text-block between a specified char (Visual mode)
     call setline(1, 'text/text-block/text')
-    normal f-v@/d
+    normal f-vif/d
     Assert Equals(getline(1), 'text//text')
 
     call setline(1, '\text-block\')
-    normal lv@\d
+    normal lvif\d
     Assert Equals(getline(1), '\\')
   End
 
   It is dot-repeatable
     call setline(1, '/text-block/')
-    normal ld@/
+    normal ldif/
     call setline(1, '/text-block/')
     normal .
     Assert Equals(getline(1), '//')
@@ -43,46 +33,55 @@ Describe textobj-between-i
 End
 
 Describe textobj-between-a
-  Before all
-    omap @ <Plug>(textobj-between-a)
-    vmap @ <Plug>(textobj-between-a)
-  End
-
-  After all
-    ounmap @
-    vunmap @
-  End
-
   Before each
     % delete _
   End
 
   It selects a text-block that starts and ends with a specified char (Operator-pending mode)
     call setline(1, 'text/text-block/text')
-    normal f-d@/
+    normal f-daf/
     Assert Equals(getline(1), 'texttext')
 
     call setline(1, '\text-block\')
-    normal d@\
+    normal daf\
     Assert Equals(getline(1), '')
   End
 
   It selects a text-block that starts and ends with a specified char (Visual mode)
     call setline(1, 'text/text-block/text')
-    normal f-v@/d
+    normal f-vaf/d
     Assert Equals(getline(1), 'texttext')
 
     call setline(1, '\text-block\')
-    normal lv@\d
+    normal lvaf\d
     Assert Equals(getline(1), '')
   End
 
   It is dot-repeatable
     call setline(1, '/text-block/')
-    normal ld@/
+    normal ldaf/
 
     call setline(1, 'text/text-block/text')
     normal f-.
     Assert Equals(getline(1), 'texttext')
+  End
+End
+
+Describe :TextobjBetweenDefaultKeyMappings
+  Before each
+    onoremap if <Plug>(dummy-rhs)
+    vnoremap af <Plug>(dummy-rhs)
+  End
+
+  It doesn't overwrite key-mappings when "!" isn't specified
+    TextobjBetweenDefaultKeyMappings
+    Assert Equal(maparg('if', 'o'), '<Plug>(dummy-rhs)')
+    Assert Equal(maparg('af', 'v'), '<Plug>(dummy-rhs)')
+  End
+
+  It overwrites key-mappings when "!" is specified
+    TextobjBetweenDefaultKeyMappings!
+    Assert Equal(maparg('if', 'o'), '<Plug>(textobj-between-i)')
+    Assert Equal(maparg('af', 'v'), '<Plug>(textobj-between-a)')
   End
 End
