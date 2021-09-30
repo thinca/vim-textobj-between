@@ -1,1 +1,2 @@
+call themis#helper('deps').git('kana/vim-textobj-user')
 call themis#helper('command').with(themis#helper('assert'))
