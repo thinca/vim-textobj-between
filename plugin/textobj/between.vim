@@ -20,17 +20,17 @@ call textobj#user#plugin('betweenimpl', {
 \    })
 
 omap <expr> <Plug>(textobj-between-a) textobj#between#select_a()
-vmap <expr> <Plug>(textobj-between-a) textobj#between#select_a()
+xmap <expr> <Plug>(textobj-between-a) textobj#between#select_a()
 omap <expr> <Plug>(textobj-between-i) textobj#between#select_i()
-vmap <expr> <Plug>(textobj-between-i) textobj#between#select_i()
+xmap <expr> <Plug>(textobj-between-i) textobj#between#select_i()
 
 " Overwrite default-key-mappings and a command defined by textobj-user
 function! s:define_default_key_mappings(force_overwrite)
   let modifier = a:force_overwrite ? '' : '<unique>'
   execute 'silent! omap' modifier 'af <Plug>(textobj-between-a)'
-  execute 'silent! vmap' modifier 'af <Plug>(textobj-between-a)'
+  execute 'silent! xmap' modifier 'af <Plug>(textobj-between-a)'
   execute 'silent! omap' modifier 'if <Plug>(textobj-between-i)'
-  execute 'silent! vmap' modifier 'if <Plug>(textobj-between-i)'
+  execute 'silent! xmap' modifier 'if <Plug>(textobj-between-i)'
 endfunction
 command! -bang -bar TextobjBetweenDefaultKeyMappings
       \ call s:define_default_key_mappings(<bang>0)
