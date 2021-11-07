@@ -27,7 +27,7 @@ Requirements:
   <http://www.vim.org/scripts/script.php?script_id=2100>
 
 Latest version:
-http://github.com/thinca/vim-textobj-plugins/tree/between
+https://github.com/thinca/vim-textobj-between
 
 
 ==============================================================================
